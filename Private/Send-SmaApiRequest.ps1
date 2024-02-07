@@ -18,8 +18,8 @@ function Send-SmaApiRequest {
         $Body,
 
         [Parameter(Position = 4)]
-        [String]
-        $SessionVariable
+        [Switch]
+        $Raw
     )
     Begin {
         
@@ -54,7 +54,11 @@ function Send-SmaApiRequest {
                     $params.Add("Body",$($body | ConvertTo-Json))
                 }
                 $WebResponse = Invoke-WebRequest @params
-                $WebResponse.content | ConvertFrom-Json
+                if ($Raw) {
+                    $WebResponse.RawContentStream.ToArray()
+                } else {
+                    $WebResponse.content | ConvertFrom-Json
+                }
                 if ($WebResponse.Headers.jwtToken) {
                     Write-Verbose "Token present in Response header. Updating jwtToken accordingly"
                     Set-Variable -Name SMAToken -Value @{accept = 'application/json'; jwtToken = $WebResponse.Headers.jwtToken} -Option ReadOnly -Scope Script -Force

@@ -12,7 +12,7 @@
     RootModule           = 'PSCiscoSMA.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '1.0.2'
+    ModuleVersion        = '1.0.5'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Desktop', 'Core'
@@ -27,7 +27,7 @@
     CompanyName          = 'AutomatizIT'
 
     # Copyright statement for this module
-    Copyright            = '(c) 2014 Brice Crunchant. All rights reserved.'
+    Copyright            = '(c) 2024 Brice Crunchant. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description          = 'Cisco SMA PS Module API Wrapper'
@@ -72,13 +72,13 @@
     FunctionsToExport    = 'Connect-SMAApi','Get-SMAMessageDetails','Get-SMAQuarantines','Move-SMAMessage','Save-SMAMessageAttachments','Search-SMAQuarantines','Unlock-SMAMessage'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport      = '*'
+    CmdletsToExport      = @()
 
     # Variables to export from this module
     # VariablesToExport = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport      = '*'
+    AliasesToExport      = @()
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -113,7 +113,7 @@
             # ExternalModuleDependencies = ''
 
         } # End of PSData hashtable
-    
+
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module

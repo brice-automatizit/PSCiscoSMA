@@ -78,7 +78,7 @@ function Save-SMAMessageAttachments {
                     }
                     $uri = New-SMAQueryURL @paramsDownload
                     Write-Verbose "Downloading attachment through $uri"
-                    $tmpB64String = [System.Text.Encoding]::UTF8.GetString($(Send-SmaApiRequest -uri $uri))
+                    $tmpB64String = [System.Text.Encoding]::UTF8.GetString($(Send-SmaApiRequest -uri $uri -Raw))
                     [io.file]::WriteAllBytes($filePath, [System.Convert]::FromBase64String( $tmpB64String ))
                     
                     # verify the size of the downloaded file through the B64 file as the size reported by SMA is based on B64 version of file

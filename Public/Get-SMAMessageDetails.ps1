@@ -21,7 +21,8 @@ function Get-SMAMessageDetails {
         
     Object[]  #$detailsMessages = Invoke-SMACall $(New-SMAQueryURL -endpoint "quarantine/messages/details" -mid $mid -quarantineType "pvo")
     #>
-    [CmdletBinding(DefaultParameterSetName="none")]
+    #[CmdletBinding(DefaultParameterSetName="none")]
+    [CmdletBinding()]
     [OutputType('[SMAMailDetails]', ParameterSetName="none")]
     Param (
         [Parameter(
