@@ -47,7 +47,7 @@ class SMAMailDownloadedAttachments {
 }
 
 class SMAMailDownloaded {
-    [Int]$id
+    [SMAMailDetails]$MessageDetails
     [SMAMailDownloadedAttachments[]]$downloadedAttachments
     [System.IO.FileInfo]$localBody
     [System.IO.FileInfo]$localHeaders

@@ -131,9 +131,9 @@ function Save-SMAMessageAttachments {
         }
     }
     End {
-        if ($arrayAttachments.Count -gt 0) {
+        if ($messageDetails) {
             [SMAMailDownloaded]@{
-                Id=$message.mid;
+                MessageDetails = $messageDetails
                 DownloadedAttachments= $arrayAttachments
                 LocalBody = Get-Item -literalPath $pathBody
                 LocalHeaders = Get-Item -literalPath $pathHeaders
