@@ -50,7 +50,7 @@ function Send-SmaApiRequest {
                 }
                 Write-Debug "Params: $($params | convertto-json -Compress)"
                 if ($null -ne $body) {
-                    Write-Debug "Adding body to payload"
+                    Write-Verbose "Adding body to payload"
                     $params.Add("Body",$($body | ConvertTo-Json))
                 }
                 $WebResponse = Invoke-WebRequest @params

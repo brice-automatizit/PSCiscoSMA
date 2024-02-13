@@ -30,15 +30,20 @@ function New-SMAQueryURL {
         [nullable[Datetime]]$EndDate,
         [string]$RecipientFilter,
         [string]$SenderFilter,
+        [string]$RecipientFilterTracking,
+        [string]$SenderFilterTracking,
         [string]$Quarantines,
         [Nullable[System.Int32]]$Offset,
         [Nullable[System.Int32]]$Limit,
         [Nullable[System.Int32]]$Mid,
-        [Nullable[System.Int32]]$AttachmentId
+        [Nullable[System.Int32]]$AttachmentId,
+        [string]$CiscoHost,
+        [string]$SearchOption
     ) 
     Begin {
         #todo check if there is already a SMAApiBaseUri ?
         Try {
+            [System.Reflection.Assembly]::GetAssembly([System.Web.HttpUtility]) | Out-Null
             $nvCollectionTmp = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
         } Catch {
             Add-Type -AssemblyName System.Web;
@@ -46,7 +51,7 @@ function New-SMAQueryURL {
         }
     }
     Process {
-        $strUri = [System.UriBuilder]::new($SMAApiBaseUri.AbsoluteUri + $endpoint)
+        $strUri = [System.UriBuilder]::new($($SMAApiBaseUri.AbsoluteUri + $endpoint))
         if ($startDate) {
             $nvCollectionTmp.Add('startDate',$startDate.ToString("yyyy-MM-ddTHH:mm:00.000Z")) #seconds and microseconds arent supported
         }
@@ -73,12 +78,13 @@ function New-SMAQueryURL {
             $nvCollectionTmp.Add('envelopeSenderFilterBy','contains')
             $nvCollectionTmp.Add('envelopeSenderFilterValue',$senderFilter)
         }
-
-        if ($offset -ne $null) {
-            $nvCollectionTmp.Add("offset",$offset)
+        if ($RecipientFilterTracking) {
+            $nvCollectionTmp.Add('envelopeRecipientfilterOperator','contains')
+            $nvCollectionTmp.Add('envelopeRecipientfilterValue',$RecipientFilterTracking)
         }
-        if ($limit -ne $null) {
-            $nvCollectionTmp.Add("limit",$limit)
+        if ($SenderFilterTracking) {
+            $nvCollectionTmp.Add('envelopeSenderfilterOperator','contains')
+            $nvCollectionTmp.Add('envelopeSenderfilterValue',$SenderFilterTracking)
         }
         if ($mid -ne $null) {
             $nvCollectionTmp.Add("mid",$mid)
@@ -86,9 +92,19 @@ function New-SMAQueryURL {
         if ($attachmentId -ne $null) {
             $nvCollectionTmp.Add("attachmentId",$attachmentId)
         }
-
-        $strUri.Query = $nvCollectionTmp.ToString()
-
-        $([uri]::UnescapeDataString($strUri.Uri.OriginalString))
+        if ($ciscoHost) {
+            $nvCollectionTmp.Add('ciscoHost',$ciscoHost)
+        }
+        if ($searchOption) {
+            $nvCollectionTmp.Add('searchOption',$searchOption)
+        }
+        if ($offset -ne $null) {
+            $nvCollectionTmp.Add("offset",$offset)
+        }
+        if ($limit -ne $null) {
+            $nvCollectionTmp.Add("limit",$limit)
+        }
+        $strUri.Query = $nvCollectionTmp.ToString()   
+        [uri]::UnescapeDataString($strUri.Uri.OriginalString) #$strUri.Uri.OriginalString
     }
 }

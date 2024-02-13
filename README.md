@@ -99,6 +99,11 @@ PS> 12345 | Move-SMAMessage -ToQuarantine "WAITING"
 PS> 12345 | Unlock-SMAMessage
 ```
 
+### Search Message Tracking
+
+```PowerShell
+PS> Search-SMATracking -EndDate $(get-Date) -StartDate $(get-date).AddDays(-3) -Limit 1000
+```
 
 [psgallery-badge]:      https://img.shields.io/powershellgallery/dt/PSCiscoSMA.svg
 [psgallery]:            https://www.powershellgallery.com/packages/PSCiscoSMA
