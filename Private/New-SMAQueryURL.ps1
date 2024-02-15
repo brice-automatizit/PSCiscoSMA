@@ -38,7 +38,11 @@ function New-SMAQueryURL {
         [Nullable[System.Int32]]$Mid,
         [Nullable[System.Int32]]$AttachmentId,
         [string]$CiscoHost,
-        [string]$SearchOption
+        [string]$SearchOption,
+        [int[]]$mids,
+        [int[]]$icids,
+        [Nullable[System.Int32]]$dcid,
+        [string]$serialNumber
     ) 
     Begin {
         #todo check if there is already a SMAApiBaseUri ?
@@ -103,6 +107,18 @@ function New-SMAQueryURL {
         }
         if ($limit -ne $null) {
             $nvCollectionTmp.Add("limit",$limit)
+        }
+        foreach ($_mid in $mids) {
+            $nvCollectionTmp.Add("mid",$_mid)
+        }
+        foreach ($_icid in $icids) {
+            $nvCollectionTmp.Add("icid",$_icid)
+        }
+        if ($dcid -ne $null) {
+            $nvCollectionTmp.Add("dcid",$dcid)
+        }
+        if ($serialNumber) {
+            $nvCollectionTmp.Add('serialNumber',$serialNumber)
         }
         $strUri.Query = $nvCollectionTmp.ToString()   
         [uri]::UnescapeDataString($strUri.Uri.OriginalString) #$strUri.Uri.OriginalString

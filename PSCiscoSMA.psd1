@@ -12,7 +12,7 @@
     RootModule           = 'PSCiscoSMA.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '1.0.8'
+    ModuleVersion        = '1.0.8.1'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Desktop', 'Core'
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport    = 'Connect-SMAApi','Get-SMAMessageDetails','Get-SMAQuarantines','Move-SMAMessage','Save-SMAMessageAttachments','Search-SMAQuarantines','Unlock-SMAMessage','Search-SMATracking'
+    FunctionsToExport    = 'Connect-SMAApi','Get-SMAMessageDetails','Get-SMAQuarantines','Move-SMAMessage','Save-SMAMessageAttachments','Search-SMAQuarantines','Unlock-SMAMessage','Search-SMATracking','Get-SMAMessageTrackingDetails'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport      = @()

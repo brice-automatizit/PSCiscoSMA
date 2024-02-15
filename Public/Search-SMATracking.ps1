@@ -87,11 +87,17 @@ function Search-SMATracking {
                 $result = Send-SmaApiRequest -uri $uri
                 $result.data | ForEach-Object { if ($_.attributes) { $arrayResults.Add([SMAMailTacked]$_.attributes) | Out-Null } }
                 Write-Verbose "Results $($result.meta.totalCount). Size :$($arrayResults.Count)"
-                if ($arrayResults.Count -eq $limit -or $result.meta.totalCount -eq 0) {
+                if ($arrayResults.Count -ge $limit -or $result.meta.totalCount -eq 0) {
                     Write-Verbose "Limit reached or no more results. totalCount: $($result.meta.totalCount)"
                     break
                 }
-                $paramsSearchURL.offset += $result.meta.totalCount
+                $paramsSearchURL.offset += $($result.meta.totalCount + 1) # need to increase the offset to avoid duplicates
+                
+                if(($paramsSearchURL.offset + $_limit) -gt $limit) {
+                    Write-Verbose "Need to decrease limit for next call to $($limit - $arrayResults.Count)"
+                    $paramsSearchURL.limit = $limit - $arrayResults.Count
+                }
+
                 Write-Verbose "Increase offset to $($paramsSearchURL.offset)"
             }  while ($true)
         }
