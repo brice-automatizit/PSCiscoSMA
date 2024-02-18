@@ -53,7 +53,24 @@ function Send-SmaApiRequest {
                     Write-Verbose "Adding body to payload"
                     $params.Add("Body",$($body | ConvertTo-Json))
                 }
-                $WebResponse = Invoke-WebRequest @params
+                
+                Try {
+                    $WebResponse = Invoke-WebRequest @params
+                } Catch [System.Net.WebException] {
+                    if ($_.Exception.Message -like "*CR*LF*" ) {
+                        Write-Verbose "Disable Safe Header Parsing..."
+                        Set-UseUnsafeHeaderParsing -Enable
+                        $WebResponse = Invoke-WebRequest @params
+                    } else {
+                        Write-Verbose "Unknown System.Net.WebException encountered..."
+                        throw $_
+                    }
+                } Catch {
+                    Write-Verbose "Unknown error encountered..."
+                    throw $_
+                } finally {
+                    Set-UseUnsafeHeaderParsing -Disable
+                }
                 if ($Raw) {
                     $WebResponse.RawContentStream.ToArray()
                 } else {
@@ -68,7 +85,6 @@ function Send-SmaApiRequest {
             }
         }
         
-
     }
     End {
 

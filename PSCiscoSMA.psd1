@@ -12,7 +12,7 @@
     RootModule           = 'PSCiscoSMA.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '1.0.8.1'
+    ModuleVersion        = '1.0.8.3'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Desktop', 'Core'
@@ -107,7 +107,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Initial Version'
+            ReleaseNotes = 'Handling CR/LF errors sent by API'
 
             # External dependent modules of this module
             # ExternalModuleDependencies = ''
