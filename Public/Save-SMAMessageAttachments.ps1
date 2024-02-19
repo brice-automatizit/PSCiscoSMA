@@ -62,7 +62,7 @@ function Save-SMAMessageAttachments {
         }
         if ($messageDetails) {
             $attachments = $messageDetails.attributes.messagePartDetails | Where-Object { $_.attachmentName -ne '[message body]' }
-            Write-Verbose "Message Details obtained. Found $($attachments.count) attachment(s)"
+            Write-Verbose "Message Details obtained. Found $($attachments | Measure-Object | Select-Object -ExpandProperty Count) attachment(s)"
             Try {
                 foreach ($attachment in $attachments) {
                     # generate an unique name to avoid conflits and sanistize the name to allow storage on local FS
