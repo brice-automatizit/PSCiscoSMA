@@ -66,7 +66,7 @@ function Save-SMAMessageAttachments {
             Try {
                 foreach ($attachment in $attachments) {
                     # generate an unique name to avoid conflits and sanistize the name to allow storage on local FS
-                    $cleanedName = "$($messageDetails.mid)_" + [guid]::NewGuid().ToString() + $($attachment.attachmentName -replace "[${invalidChars}]",'_')
+                    $cleanedName = "$($messageDetails.mid)_" + [guid]::NewGuid().ToString() + $($attachment.attachmentName -replace "[${invalidChars}]",'_' -replace '\\','_')
                     $filePath = Join-Path $path $cleanedName
                     $filePathB64 = Join-Path $path $($cleanedName + "-b64")
 
